@@ -26,6 +26,13 @@ vendor/lib/libssrec.so
 vendor/lib/soundfx/libasphere.so
 vendor/lib/soundfx/libshoebox.so
 
+# Audio FX - OzoAudio
+system_ext/lib/soundfx/libozoprocessing.so:vendor/lib/soundfx/libozoprocessing.so
+system_ext/lib/libav_ozodecoder.so:vendor/lib/libav_ozodecoder.so
+system_ext/lib/libav_ozoencoder.so:vendor/lib/libav_ozoencoder.so
+system_ext/lib/libozoaudio.so:vendor/lib/libozoaudio.so
+system_ext/lib/libozowidening.so:vendor/lib/libozowidening.so
+
 # Bluetooth
 vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti
 vendor/etc/init/android.hardware.bluetooth@1.0-service-qti.rc
@@ -43,19 +50,9 @@ vendor/lib64/hw/vendor.qti.hardware.btconfigstore@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 
-# Camera motor (sound) - from lmi
-system/media/audio/ui/popup_cangmen_down.ogg:system_ext/media/audio/ui/popup_cangmen_down.ogg|573b107889ccf639db5455af21129ce1fee93bc5
-system/media/audio/ui/popup_cangmen_up.ogg:system_ext/media/audio/ui/popup_cangmen_up.ogg|f152dea254b4eaae403b791c49c60c05ccf12ea7
-system/media/audio/ui/popup_chilun_down.ogg:system_ext/media/audio/ui/popup_chilun_down.ogg|e200a3de45abbf2057ca0c6a735b6a6a78ec1b1c
-system/media/audio/ui/popup_chilun_up.ogg:system_ext/media/audio/ui/popup_chilun_up.ogg|908bd714b58648c8861c0e56ca7c6f0db84d4e2b
-system/media/audio/ui/popup_jijia_down.ogg:system_ext/media/audio/ui/popup_jijia_down.ogg|680b41897aaa47972630012e0c68396bf4cbe9c7
-system/media/audio/ui/popup_jijia_up.ogg:system_ext/media/audio/ui/popup_jijia_up.ogg|bd71c2f07f439a2afc9e9b435ef8d1a7a28a4fc1
-system/media/audio/ui/popup_mofa_down.ogg:system_ext/media/audio/ui/popup_mofa_down.ogg|ebfec5126f64a5eea69aad43af169de5eed398ae
-system/media/audio/ui/popup_mofa_up.ogg:system_ext/media/audio/ui/popup_mofa_up.ogg|95ef57769ca5e4a3264e4adf7c9958d55ff1a32c
-system/media/audio/ui/popup_muqin_down.ogg:system_ext/media/audio/ui/popup_muqin_down.ogg|3ecf82ae3d4ec853e0832901d2163c252ad62e07
-system/media/audio/ui/popup_muqin_up.ogg:system_ext/media/audio/ui/popup_muqin_up.ogg|047ae904c2932bc6112cd7ef4458f4cad1972181
-system/media/audio/ui/popup_yingyan_down.ogg:system_ext/media/audio/ui/popup_yingyan_down.ogg|de1623b20f311322dc79a3d152ca30318e1ed0db
-system/media/audio/ui/popup_yingyan_up.ogg:system_ext/media/audio/ui/popup_yingyan_up.ogg|0c3a716ba49dd682a6d58cca04eece0f81ca6834
+# Bluetooth (aptX) - from crosshatch - RQ1A.201205.003
+system_ext/lib64/libaptXHD_encoder.so|e13fa70c97caaa24d061678bdee608eb8850a69e
+system_ext/lib64/libaptX_encoder.so|df1c89d7af1bb35808d5fe3496b04ba066c10cbc
 
 # CDSP
 vendor/bin/cdsprpcd
@@ -166,6 +163,7 @@ vendor/lib64/libtinyxml2_1.so
 vendor/bin/hw/vendor.display.color@1.0-service
 vendor/etc/init/vendor.display.color@1.0-service.rc
 vendor/lib64/libdisp-aba.so
+vendor/lib64/libdpps.so
 vendor/lib64/vendor.display.color@1.0.so
 vendor/lib64/vendor.display.color@1.1.so
 vendor/lib64/vendor.display.color@1.2.so
@@ -453,6 +451,28 @@ system_ext/lib64/libmmosal.so
 system_ext/lib64/libmmparser_lite.so
 vendor/lib/libmmosal.so
 vendor/lib64/libmmosal.so
+
+# Media (Codec2)
+vendor/bin/hw/vendor.qti.media.c2@1.0-service
+vendor/etc/init/vendor.qti.media.c2@1.0-service.rc
+vendor/etc/seccomp_policy/codec2.vendor.base-arm.policy
+vendor/etc/seccomp_policy/codec2.vendor.ext-arm.policy
+vendor/etc/vintf/manifest/c2_manifest_vendor.xml
+vendor/lib/libqcodec2_base.so
+vendor/lib/libqcodec2_basecodec.so
+vendor/lib/libqcodec2_core.so
+vendor/lib/libqcodec2_platform.so
+vendor/lib/libqcodec2_utils.so
+vendor/lib/libqcodec2_v4l2codec.so
+vendor/lib/libvideooptfeature.so
+vendor/lib/libvideoutils.so
+vendor/lib64/libqcodec2_base.so
+vendor/lib64/libqcodec2_basecodec.so
+vendor/lib64/libqcodec2_core.so
+vendor/lib64/libqcodec2_platform.so
+vendor/lib64/libqcodec2_utils.so
+vendor/lib64/libqcodec2_v4l2codec.so
+vendor/lib64/libvideooptfeature.so
 
 # Media configs
 odm/etc/media_profiles_V1_0.xml
@@ -756,6 +776,14 @@ vendor/bin/time_daemon
 vendor/etc/init/init.time_daemon.rc
 vendor/lib64/libtime_genoff.so
 
+# Touchfeature
+vendor/bin/hw/vendor.xiaomi.hardware.touchfeature@1.0-service
+vendor/etc/init/vendor.xiaomi.hardware.touchfeature@1.0-service.rc
+vendor/lib/hw/vendor.xiaomi.hardware.touchfeature@1.0-impl.so
+vendor/lib/vendor.xiaomi.hardware.touchfeature@1.0.so
+vendor/lib64/hw/vendor.xiaomi.hardware.touchfeature@1.0-impl.so
+vendor/lib64/vendor.xiaomi.hardware.touchfeature@1.0.so
+
 # Trusted Execution Environment connector
 vendor/bin/hw/vendor.qti.hardware.qteeconnector@1.0-service
 vendor/etc/init/vendor.qti.hardware.qteeconnector@1.0-service.rc
@@ -794,3 +822,36 @@ vendor/lib64/vendor.qti.hardware.vpp@1.3.so
 vendor/bin/cnss-daemon
 vendor/etc/wifi/aoa_cldb_falcon.bin
 vendor/etc/wifi/aoa_cldb_swl14.bin
+
+# Dolby - from 9R OOS 11.2.8.8
+system/lib64/vendor.dolby.hardware.dms@2.0.so|0a1cb972160890b07baf3a3e624e9ec1273befed
+-system_ext/priv-app/DaxUI/DaxUI.apk|89e8ceabb19458b872eed0560a627eb2ff4c4dc4
+-system_ext/priv-app/daxService/daxService.apk|ed1de719afc7181a7e896e0eeaf14edc00761c21
+vendor/bin/hw/vendor.dolby.hardware.dms@2.0-service|84247a3563b362e97dacaa79d4845c1292a92f13
+vendor/etc/init/vendor.dolby.hardware.dms@2.0-service.rc|29296ebfe89b2697fec573be73cc3757fd97bed6
+vendor/lib/libdapparamstorage.so|6c488c6bc88abe13c6fd689124475526c1cf41b8
+vendor/lib/libdeccfg.so|28b3aa2368d091b50ef7d5f3c3d44466a89172f8
+vendor/lib/libqtigef.so|d2e8b296db9d8ff19051858ee1a0143e06c69df3
+vendor/lib/libstagefright_soft_ac4dec.so|e1560136d7f16ed177e8f848fba3448014ea061c
+vendor/lib/libstagefright_soft_ddpdec.so|c1a83910911cdab332088b10b2d3675b735a9524
+vendor/lib/libstagefrightdolby.so|c4269437c623630cf9c79c2010a7cfb88828584a
+vendor/lib/soundfx/libeffectproxy.so|44289fe864b085d53c051ad42ed233727ced175c
+vendor/lib/soundfx/libhwdap.so|6348b774b3df7bd2f485186f2ebc3e84d9435df8
+vendor/lib/soundfx/libswdap.so|bd73d33628837d0e3aa18d85c5ffb8e95b87af1b
+vendor/lib/soundfx/libswgamedap.so|a4d17b610b5cd873bd82c28f7361ba66a5d2c48e
+vendor/lib/vendor.dolby.hardware.dms@2.0.so|73532d31c8fdad87b69e9cc1724dfc5b02a893e7
+vendor/lib64/libdapparamstorage.so|b820de455f13bce531331f9e134b1e56b8a651d4
+vendor/lib64/libdeccfg.so|adea652793ab688253b0b56d6c165625184eab54
+vendor/lib64/libdlbdsservice.so|f8867071a19efabef94eae4eb62424a5a88b9ef0
+vendor/lib64/libstagefright_soft_ac4dec.so|8c89d21ba388c05504f2950d8a7c1103e57214ad
+vendor/lib64/libstagefright_soft_ddpdec.so|555b5b366c35bad0c6d6e98a3d04f1105e4d9e92
+vendor/lib64/libstagefrightdolby.so|67157be87b3d8fe2c5a057044ce596ce1b68d16b
+vendor/lib64/soundfx/libeffectproxy.so|e09115bb4087510eab62d21ab050274d6c98db71
+vendor/lib64/soundfx/libhwdap.so|901e19f8e271c8d228e41136ea8d611c3b3d30b4
+vendor/lib64/soundfx/libswdap.so|a468c839bd18e31d50f92d371dbd079374667068
+vendor/lib64/soundfx/libswgamedap.so|0491096a45e14d8097ceb80c15c0f946bbade389
+vendor/lib64/vendor.dolby.hardware.dms@2.0-impl.so|da03a56f6fbeb2bbe23ebb3a48b30fc3e5e76da3
+vendor/lib64/vendor.dolby.hardware.dms@2.0.so|45ab26d743b6a56b505447012347493ff41057fc
+
+# Xiaomi MAC
+-vendor/bin/nv_mac

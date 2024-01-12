@@ -12,11 +12,6 @@
 /mnt/vendor/persist/camera(/.*)?                                        u:object_r:camera_persist_file:s0
 /vendor/bin/remosaic_daemon                                             u:object_r:remosaic_daemon_exec:s0
 
-# Camera motor
-/dev/drv8846_dev                                                        u:object_r:motor_device:s0
-/dev/ti-drv8846                                                         u:object_r:motor_device:s0
-/vendor/bin/hw/vendor\.xiaomi\.hardware\.motor@1.0-service              u:object_r:hal_motor_default_exec:s0
-
 # Charger
 /vendor/bin/batterysecret                                               u:object_r:batterysecret_exec:s0
 
@@ -77,8 +72,14 @@
 # Mlipay
 /vendor/bin/mlipayd@1\.1                                                u:object_r:hal_mlipay_default_exec:s0
 
+# MiSys
+/vendor/bin/hw/vendor\.xiaomi\.hardware\.misys@1\.0-service             u:object_r:hal_misys_default_exec:s0
+/vendor/bin/hw/vendor\.xiaomi\.hardware\.misys@2\.0-service             u:object_r:hal_misys_default_exec:s0
+/vendor/bin/hw/vendor\.xiaomi\.hardware\.misys@3\.0-service             u:object_r:hal_misys_default_exec:s0
+/vendor/bin/hw/vendor\.xiaomi\.hardware\.misys@4\.0-service             u:object_r:hal_misys_default_exec:s0
+
 # NFC
-/vendor/bin/hw/android\.hardware\.nfc_snxxx@1\.2-service                u:object_r:hal_nfc_default_exec:s0
+/vendor/bin/hw/android\.hardware\.nfc-service\.nxp u:object_r:hal_nfc_default_exec:s0
 
 # Persist subsystem
 /mnt/vendor/persist/subsys(/.*)?                                        u:object_r:persist_subsys_file:s0
@@ -104,9 +105,6 @@
 
 # USB
 /vendor/bin/init\.mi\.usb\.sh                                           u:object_r:vendor_qti_init_shell_exec:s0
-
-# Vibrator
-/vendor/bin/hw/vendor\.qti\.hardware\.vibrator\.service\.xiaomi_kona    u:object_r:hal_vibrator_default_exec:s0
 
 # Widevine
 /(vendor|system/vendor)/bin/hw/android\.hardware\.drm@1\.[0-4]-service.clearkey                                     u:object_r:vendor_hal_drm_widevine_exec:s0

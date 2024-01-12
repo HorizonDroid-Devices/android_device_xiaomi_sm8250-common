@@ -32,6 +32,10 @@ on enable-low-power
 on property:sys.boot_completed=1
     trigger enable-low-power
 
+    # Runtime fs tuning
+    write /sys/block/sda/queue/nr_requests 128
+    write /sys/block/sda/queue/iostats 1
+
     # Block layer tuning: discard chunk size up to 128MB
     # Otherwise, contiguous discards can be merged
     write /sys/block/sda/queue/discard_max_bytes 134217728
@@ -111,6 +115,12 @@ on init
     write /dev/stune/top-app/schedtune.prefer_high_cap 1
     write /dev/stune/top-app/schedtune.boost 100
 
+    # Boot time fs tuning
+    write /sys/block/sda/queue/iostats 0
+    write /sys/block/sda/queue/scheduler cfq
+    write /sys/block/sda/queue/iosched/slice_idle 0
+    write /sys/block/sda/queue/nr_requests 256
+
     # Disable UFS powersaving
     write /sys/devices/platform/soc/${ro.boot.bootdevice}/clkgate_enable 0
 
@@ -147,7 +157,7 @@ on init
     write /dev/stune/camera-daemon/schedtune.boost 0
 
     # report max frequency to unity tasks.
-    write /proc/sys/kernel/sched_lib_name "com.miHoYo.,UnityMain,libunity.so"
+    write /proc/sys/kernel/sched_lib_name "UnityMain,libunity.so,com.miHoYo.,libunity.so,libfb.so,liblogic.so,libssgamesdkcronet.so,libil2cpp.so,com.activision."
     write /proc/sys/kernel/sched_lib_mask_force 255
 
 on property:sys.boot_completed=1

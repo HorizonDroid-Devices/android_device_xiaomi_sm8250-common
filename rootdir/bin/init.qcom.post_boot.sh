@@ -811,6 +811,29 @@ KernelVersionS=${KernelVersionStr:2:2}
 KernelVersionA=${KernelVersionStr:0:1}
 KernelVersionB=${KernelVersionS%.*}
 
+function configure_read_ahead_kb_values() {
+    MemTotalStr=`cat /proc/meminfo | grep MemTotal`
+    MemTotal=${MemTotalStr:16:8}
+
+    dmpts=$(ls /sys/block/*/queue/read_ahead_kb | grep -e dm -e mmc)
+
+    # Set 128 for <= 3GB &
+    # set 512 for >= 4GB targets.
+    if [ $MemTotal -le 3145728 ]; then
+        echo 128 > /sys/block/mmcblk0/bdi/read_ahead_kb
+        echo 128 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
+        for dm in $dmpts; do
+            echo 128 > $dm
+        done
+    else
+        echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
+        echo 512 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
+        for dm in $dmpts; do
+            echo 512 > $dm
+        done
+    fi
+}
+
 function disable_core_ctl() {
     if [ -f /sys/devices/system/cpu/cpu0/core_ctl/enable ]; then
         echo 0 > /sys/devices/system/cpu/cpu0/core_ctl/enable
@@ -873,6 +896,7 @@ function configure_memory_parameters() {
 
     if [ "$ProductName" == "msmnile" ] || [ "$ProductName" == "kona" ] || [ "$ProductName" == "sdmshrike_au" ]; then
         # Enable ZRAM
+        configure_read_ahead_kb_values
       	echo 100 > /proc/sys/vm/swappiness
 
         #add memory limit to camera cgroup
@@ -1011,6 +1035,8 @@ function configure_memory_parameters() {
     fi
 
     configure_zram_parameters
+
+    configure_read_ahead_kb_values
 
     enable_swap
 fi
@@ -6071,6 +6097,7 @@ case "$target" in
     ;;
     "msm8974")
         start mpdecision
+        echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
     ;;
     "msm8909" | "msm8916" | "msm8937" | "msm8952" | "msm8953" | "msm8994" | "msm8992" | "msm8996" | "msm8998" | "sdm660" | "apq8098_latv" | "sdm845" | "sdm710" | "msmnile" | "msmsteppe" | "sm6150" | "kona" | "lito" | "trinket" | "atoll" | "bengal" | "sdmshrike")
         setprop vendor.post_boot.parsed 1
@@ -6078,6 +6105,15 @@ case "$target" in
     "apq8084")
         rm /data/system/perfd/default_values
         start mpdecision
+        echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
+        echo 512 > /sys/block/sda/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdb/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdc/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdd/bdi/read_ahead_kb
+        echo 512 > /sys/block/sde/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdf/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdg/bdi/read_ahead_kb
+        echo 512 > /sys/block/sdh/bdi/read_ahead_kb
     ;;
     "msm7627a")
         if [ -f /sys/devices/soc0/soc_id ]; then
@@ -6117,20 +6153,6 @@ case "$target" in
      ;;
 esac
 
-# Install AdrenoTest.apk if not already installed
-if [ -f /data/prebuilt/AdrenoTest.apk ]; then
-    if [ ! -d /data/data/com.qualcomm.adrenotest ]; then
-        pm install /data/prebuilt/AdrenoTest.apk
-    fi
-fi
-
-# Install SWE_Browser.apk if not already installed
-if [ -f /data/prebuilt/SWE_AndroidBrowser.apk ]; then
-    if [ ! -d /data/data/com.android.swe.browser ]; then
-        pm install /data/prebuilt/SWE_AndroidBrowser.apk
-    fi
-fi
-
 # Change adj level and min_free_kbytes setting for lowmemory killer to kick in
 case "$target" in
      "msm8660")
@@ -6139,35 +6161,3 @@ case "$target" in
         echo 5120 > /proc/sys/vm/min_free_kbytes
      ;;
 esac
-# Let kernel know our image version/variant/crm_version
-if [ -f /sys/devices/soc0/select_image ]; then
-    image_version="10:"
-    image_version+=`getprop ro.build.id`
-    image_version+=":"
-    image_version+=`getprop ro.build.version.incremental`
-    image_variant=`getprop ro.product.name`
-    image_variant+="-"
-    image_variant+=`getprop ro.build.type`
-    oem_version=`getprop ro.build.version.codename`
-    echo 10 > /sys/devices/soc0/select_image
-    echo $image_version > /sys/devices/soc0/image_version
-    echo $image_variant > /sys/devices/soc0/image_variant
-    echo $oem_version > /sys/devices/soc0/image_crm_version
-fi
-
-# Change console log level as per console config property
-console_config=`getprop persist.vendor.console.silent.config`
-case "$console_config" in
-    "1")
-        echo "Enable console config to $console_config"
-        echo 0 > /proc/sys/kernel/printk
-        ;;
-    *)
-        echo "Enable console config to $console_config"
-        ;;
-esac
-
-# Parse misc partition path and set property
-misc_link=$(ls -l /dev/block/bootdevice/by-name/misc)
-real_path=${misc_link##*>}
-setprop persist.vendor.mmi.misc_dev_path $real_path
